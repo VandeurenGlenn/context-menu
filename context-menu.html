@@ -1,0 +1,152 @@
+<!--
+@license
+Copyright (c) 2015 Glenn Vandeuren. All rights reserved.
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../iron-media-query/iron-media-query.html">
+
+<!--
+An element providing a solution displaying a custom context menu.
+
+Example:
+
+    <context-menu target='["item"]'>
+      // some content
+    </context-menu>
+
+    <p class="item"></p>
+
+Or using the triggerAttribute:
+
+    <context-menu>
+      // some content
+    </context-menu>
+
+    <p context-menu-trigger></p>
+
+@element context-menu
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="context-menu">
+  <template>
+    <style>
+      :host {
+        visibility: hidden;
+        will-change: visibility;
+        opacity: 0;
+      }
+      :host([opened]) {
+        min-width: 100px;
+        min-height: 50px;
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.1s ease-in;
+      }
+      .title {
+        @apply(--paper-font-title);
+        @apply(--context-menu-title);
+      }
+    </style>
+    <iron-dropdown on-iron-resize="_updateContextMenuPosition" opened="{{opened}}">
+      <template is="dom-if" if="[[title]]">
+        <h1 class="title">[[title]]</h1>
+      </template>
+      <div class="dropdown-content">
+        <content></content>
+      </div>
+    </iron-dropdown>
+
+    <iron-media-query query="max-width: 600px" query-matches="{{mobile}}"></iron-media-query>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'context-menu',
+    properties: {
+      /** the target for openening the context menu */
+      target: {
+        type: Array,
+        observer: 'targetChanged'
+      },
+
+      title: String,
+
+      mobile: {
+        type: Boolean,
+        value: false
+      },
+
+      bottomOnMobile: {
+        type: Boolean,
+        value: true
+      },
+
+      triggerAttribute: {
+        type: String,
+        value: 'context-menu-trigger'
+      },
+
+      opened: {
+        type: Boolean,
+        reflectToAttribute: true
+      },
+
+      menuDelay: {
+        type: Number,
+        value: 100
+      }
+    },
+
+    targetChanged: function (target) {
+      window.oncontextmenu = function () {
+        if (this.opened) {
+          this.querySelector('iron-dropdown').close();
+        }
+        this.target.forEach(function (cb) {
+          var target = event.target;
+          if (target.className.includes(cb) || target.hasAttribute(this.triggerAttribute)) {
+            var x = event.clientX;
+            var y = event.clientY;
+            this._openContextMenu(x, y);  // open context menu
+            this.false = false;
+          } else {
+            this.false = true;
+          }
+        }.bind(this));
+        return this.false;
+      }.bind(this);
+    },
+
+    _openContextMenu: function (x, y) {
+      // open dialog on right click
+      // var contextMenu = document.createElement('catalog-creator-context-menu');
+      this.async(function () {
+        this.querySelector('iron-dropdown').open();
+        this._updateContextMenuPosition(x, y);
+      }, this.menuDelay);
+    },
+
+    _updateContextMenuPosition: function (x, y) {
+      if (typeof x === 'number' && typeof y === 'number') {
+        if (this.mobile) {
+          if (this.bottomOnMobile) {
+            // update position
+            this.querySelector('iron-dropdown').style = 'left: ' + 0 + 'px; bottom: ' + 0 + 'px;';
+          }
+          // let the menu appear at the bottom, using ccs & media query
+          // or
+        } else if (!this.mobile) {
+          // TODO: remember last position
+          // this.lastContextMenuPosition = {}
+          // update position
+          this.querySelector('iron-dropdown').style = 'left: ' + x + 'px; top: ' + y + 'px;';
+        }
+      }
+
+    }
+  });
+</script>

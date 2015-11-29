@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>context-menu Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../context-menu.html">
+  </head>
+  <style>
+    .menu {
+      padding: 25px;
+      background: #eee;
+      height: 100%;
+      min-width: 100px;
+    }
+  </style>
+  <body unresolved>
+
+    <p>An example of <code>&lt;context-menu&gt;</code>:</p>
+    <div context-menu-trigger>item</div>
+    <div context-menu-trigger>item</div>
+    <div class="item" context-menu-trigger>item</div>
+    <div class="item" context-menu-trigger>item</div>
+    <context-menu target='["div", "item"]'>
+      <div class="menu">
+        <p>item 1</p>
+        <p>item 2</p>
+        <p>item 3</p>
+        <p>item 4</p>
+      </div>
+    </context-menu>
+
+  </body>
+</html>

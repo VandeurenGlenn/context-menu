@@ -1,0 +1,29 @@
+{
+  "name": "context-menu",
+  "version": "0.1.0",
+  "authors": [
+    "Glenn Vandeuren <VandeurenGlenn@gmail.com>"
+  ],
+  "description": "An element providing a custom context menu.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "context-menu.html",
+  "license": "http://vandeurenglenn.github.io/LICENSE.txt",
+  "homepage": "https://github.com/vandeurenglenn/context-menu/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "iron-dropdown": "PolymerElements/iron-dropdown#~1.0.6",
+    "iron-media-query": "PolymerElements/iron-media-query#~1.0.7"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}
